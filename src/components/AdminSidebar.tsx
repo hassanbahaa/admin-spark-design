@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   ChevronLeft, 
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
+import { NotificationsDropdown } from "@/components/NotificationsDropdown";
 
 const menuItems = [
   { id: "dashboard", title: "Dashboard", icon: "🏠" },
@@ -65,14 +65,17 @@ export const AdminSidebar = ({
                 Admin Panel
               </h2>
             )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setCollapsed(!collapsed)}
-              className="hover:bg-accent"
-            >
-              {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-            </Button>
+            <div className="flex items-center gap-2">
+              {!collapsed && <NotificationsDropdown />}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setCollapsed(!collapsed)}
+                className="hover:bg-accent"
+              >
+                {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+              </Button>
+            </div>
           </div>
         </div>
 
