@@ -11,7 +11,6 @@ import { UsersContent } from "@/components/UsersContent";
 import { OffersContent } from "@/components/OffersContent";
 import { CouponsContent } from "@/components/CouponsContent";
 import { AnalyticsContent } from "@/components/AnalyticsContent";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -43,21 +42,19 @@ const Index = () => {
   };
 
   return (
-    <ThemeProvider>
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full bg-background transition-colors duration-300">
-          <AdminSidebar 
-            activeSection={activeSection}
-            setActiveSection={setActiveSection}
-            collapsed={sidebarCollapsed}
-            setCollapsed={setSidebarCollapsed}
-          />
-          <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-            {renderContent()}
-          </main>
-        </div>
-      </SidebarProvider>
-    </ThemeProvider>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background transition-colors duration-300">
+        <AdminSidebar 
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          collapsed={sidebarCollapsed}
+          setCollapsed={setSidebarCollapsed}
+        />
+        <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+          {renderContent()}
+        </main>
+      </div>
+    </SidebarProvider>
   );
 };
 
