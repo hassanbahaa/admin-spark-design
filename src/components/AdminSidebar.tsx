@@ -24,7 +24,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 import { NotificationsDropdown } from "@/components/NotificationsDropdown";
+import { toast } from "@/components/ui/sonner";
 
 const menuItems = [
   { id: "dashboard", title: "Dashboard", icon: "🏠" },
@@ -53,6 +55,12 @@ export const AdminSidebar = ({
 }: AdminSidebarProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Logged out successfully');
+  };
 
   return (
     <div className={`fixed left-0 top-0 h-full bg-card border-r border-border transition-all duration-300 z-50 ${collapsed ? 'w-16' : 'w-64'}`}>
@@ -114,13 +122,13 @@ export const AdminSidebar = ({
             <DropdownMenuTrigger asChild>
               <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-colors duration-200 text-left">
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0">
-                  A
+                  {user?.name?.charAt(0) || 'A'}
                 </div>
                 {!collapsed && (
                   <>
                     <div className="flex-1 min-w-0 animate-fade-in">
-                      <p className="font-medium text-foreground truncate">Admin User</p>
-                      <p className="text-xs text-muted-foreground truncate">admin@company.com</p>
+                      <p className="font-medium text-foreground truncate">{user?.name || 'Admin User'}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user?.email || 'admin@company.com'}</p>
                     </div>
                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
                   </>
@@ -133,7 +141,7 @@ export const AdminSidebar = ({
                 Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer text-destructive">
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </DropdownMenuItem>
